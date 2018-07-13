@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "devel": "NODE_ENV=development nodemon ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "eslint": "^5.1.0",
     "eslint-config-airbnb-improved": "^3.0.3",
-    "eslint-plugin-node": "^6.0.1"
+    "eslint-plugin-node": "^6.0.1",
+    "nodemon": "^1.18.1"
   }
 }
