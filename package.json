@@ -1,0 +1,30 @@
+{
+  "name": "raspberry-simple-server",
+  "version": "1.0.0",
+  "description": "a simple servery for sending data from raspberry and controlling its peripetials",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petrpatek/raspberry-simple-server.git"
+  },
+  "author": "Petr Pátek - petrpatekml@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petrpatek/raspberry-simple-server/issues"
+  },
+  "homepage": "https://github.com/petrpatek/raspberry-simple-server#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-basic-auth": "^1.1.5"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb-improved": "^3.0.3",
+    "eslint-plugin-node": "^6.0.1"
+  }
+}
