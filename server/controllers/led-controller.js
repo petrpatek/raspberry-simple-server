@@ -6,7 +6,7 @@ class Led extends PinState {
     this.blinkInterval = null;
   }
   blinkOnce() {
-    if (LED.readSync() === 0) {
+    if (this.state === 0) {
       super.on();
     } else {
       super.off();

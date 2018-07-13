@@ -23,7 +23,7 @@ class PinState {
       return MESSAGES.ON_ALREADY;
     }
     this.pin.writeSync(1);
-    this.fetchState();
+    this.state = this.fetchState();
 
     return MESSAGES.ON;
   }
@@ -32,11 +32,11 @@ class PinState {
       return MESSAGES.OFF_ALREADY;
     }
     this.pin.writeSync(0);
-    this.fetchState();
+    this.state = this.fetchState();
 
     return MESSAGES.OFF;
   }
-  unExport(){
+  unExport() {
     this.pin.unexport();
   }
 }
