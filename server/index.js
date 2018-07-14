@@ -1,6 +1,7 @@
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+
 const basicAuth = require('express-basic-auth');
 const cors = require('cors');
 const dotEnv = require('dotenv');
@@ -12,6 +13,17 @@ if (process.env.NODE_ENV === 'development') {
   dotEnv.config({ path: './development.env' });
 }
 app.use(cors());
+
+const socketauth = require('socketio-auth')(io, {
+  authenticate: (socket, data, callback) => {
+    const username = data.username;
+    const password = data.password;
+
+    return callback(null, password === process.env.PASSWORD && username === 'admin');
+  },
+  timeout: 1000,
+
+});
 
 app.use(basicAuth({
   users: { admin: process.env.PASSWORD },
@@ -28,12 +40,9 @@ app.post('/blink', (req, res) => {
   // Led.blink();
   res.send(msg);
 });
-
-io
-  .of('/voltmeter')
-  .on('connection', (socket) => {
-    const interval = setInterval(() => socket.emit('voltmeter', { value: Voltmeter.getValue() }), 1000);
-  });
+io.on('connection', (socket) => {
+  const interval = setInterval(() => socket.emit('voltmeter', { value: Voltmeter.getValue() }), 1000);
+});
 const serverInstace = server.listen(
   process.env.PORT,
   () => console.log(`Server started at port: ${serverInstace.address().port}`
