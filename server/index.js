@@ -1,4 +1,5 @@
 const app = require('express')();
+const expressWs = require('express-ws')(app);
 const basicAuth = require('express-basic-auth');
 const cors = require('cors');
 const dotEnv = require('dotenv');
@@ -24,6 +25,13 @@ app.post('/blink', (req, res) => {
   }
   // Led.blink();
   res.send(msg);
+});
+
+app.ws('/voltmeter', (ws, req) => {
+  console.log(ws.url)
+  ws.on('message', (msg) => {
+    ws.send(msg);
+  });
 });
 
 const server = app.listen(process.env.PORT, () => console.log(`Server started at port: ${server.address().port}`));
