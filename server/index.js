@@ -1,10 +1,12 @@
 const app = require('express')();
-const expressWs = require('express-ws')(app);
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const basicAuth = require('express-basic-auth');
 const cors = require('cors');
 const dotEnv = require('dotenv');
 const bodyParser = require('body-parser');
 const Led = require('./controllers/led-controller');
+const Voltmeter = require('./controllers/voltmeter-controller');
 
 if (process.env.NODE_ENV === 'development') {
   dotEnv.config({ path: './development.env' });
@@ -27,11 +29,12 @@ app.post('/blink', (req, res) => {
   res.send(msg);
 });
 
-app.ws('/voltmeter', (ws, req) => {
-  console.log(ws.url)
-  ws.on('message', (msg) => {
-    ws.send(msg);
+io
+  .of('/voltmeter')
+  .on('connection', (socket) => {
+    const interval = setInterval(() => socket.emit('voltmeter', { value: Voltmeter.getValue() }), 1000);
   });
-});
-
-const server = app.listen(process.env.PORT, () => console.log(`Server started at port: ${server.address().port}`));
+const serverInstace = server.listen(
+  process.env.PORT,
+  () => console.log(`Server started at port: ${serverInstace.address().port}`
+  ));
