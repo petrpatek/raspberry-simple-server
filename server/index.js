@@ -16,14 +16,14 @@ app.use(basicAuth({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.post('/blink', (req, res) => {
-  console.log(req.body, 'body');
+  let msg;
   if (req.body.state === 'on') {
-    console.log(Led.on());
+    msg = Led.on();
   } else if (req.body.state === 'off') {
-    console.log(Led.off());
+    msg = Led.off();
   }
   // Led.blink();
-  res.send('Hello - Blinking started');
+  res.send(msg);
 });
 
 const server = app.listen(process.env.PORT, () => console.log(`Server started at port: ${server.address().port}`));
