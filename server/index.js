@@ -8,6 +8,7 @@ const dotEnv = require('dotenv');
 const bodyParser = require('body-parser');
 const Led = require('./controllers/led-controller');
 const Voltmeter = require('./controllers/voltmeter-controller');
+const Depth = require('./controllers/depth-controller');
 
 if (process.env.NODE_ENV === 'development') {
   dotEnv.config({ path: './development.env' });
@@ -40,8 +41,12 @@ app.post('/blink', (req, res) => {
   // Led.blink();
   res.send(msg);
 });
+Depth.startMeassuring();
 io.on('connection', (socket) => {
-  const interval = setInterval(() => socket.emit('voltmeter', { value: Voltmeter.getValue() }), 1000);
+  const interval = setInterval(() => {
+   // socket.emit('voltmeter', { value: Voltmeter.getValue() });
+    socket.emit('depth', { value: Depth.getValue() });
+  }, 1000);
 });
 const serverInstace = server.listen(
   process.env.PORT,
